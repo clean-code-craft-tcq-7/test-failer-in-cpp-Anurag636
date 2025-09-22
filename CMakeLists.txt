@@ -8,14 +8,27 @@ include(FetchContent)
 FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 enable_testing()
 
-file(GLOB SOURCES "*.cpp")
-add_executable(strong_tests ${SOURCES})
+
+# Use the actual source files instead of trying to glob from non-existent directories
+set(PROD_SOURCES 
+    "tshirts.c"
+    "misaligned.c"
+    "weatherreport.c"
+)
+set(TEST_SOURCES
+    "main-test.cpp"
+)
+add_executable(strong_tests ${PROD_SOURCES} ${TEST_SOURCES})
+
+
+target_compile_definitions(strong_tests PRIVATE TEST_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 
 target_link_libraries(
   strong_tests

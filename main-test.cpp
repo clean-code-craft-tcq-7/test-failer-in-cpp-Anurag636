@@ -1,17 +1,23 @@
 #include "gtest/gtest.h"
+#include <stdio.h>
 
-void testTshirtSize();
-void testPrintColorMap();
-void testWeatherReport();
+extern "C" {
+    int testTshirtSize();
+    int testPrintColorMap();
+    int testWeatherReport();
+}
 
 TEST(TShirt, Size) {
-    testTshirtSize();
+    int result = testTshirtSize();
+    EXPECT_TRUE(result) << "T-shirt size test failed";
 }
 
 TEST(ColorMap, Print) {
-    testPrintColorMap();
+    int result = testPrintColorMap();
+    EXPECT_TRUE(result) << "Color map alignment test failed";
 }
 
 TEST(WeatherReport, Report) {
-    testWeatherReport();
+    int result = testWeatherReport();
+    EXPECT_TRUE(result) << "Weather report test failed";
 }
